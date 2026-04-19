@@ -28,7 +28,12 @@ class _VideoTimelineScreenState extends State<VideoTimelineScreen> {
   }
 
   void _onVideoFinished() {
+    // Replay the current video when current video is finished
+    return;
+    // Go to next video when current video is finished
+    /* 
     _pageController.nextPage(duration: _scrollDuration, curve: _scrollCurve);
+    */
   }
 
   @override
