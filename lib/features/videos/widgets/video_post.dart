@@ -53,6 +53,9 @@ class _VideoPostState extends State<VideoPost>
         !_videoPlayerController.value.isPlaying) {
       _videoPlayerController.play();
     }
+    if (_videoPlayerController.value.isPlaying && info.visibleFraction == 0) {
+      _onTogglePause();
+    }
   }
 
   void _onTogglePause() {
@@ -173,7 +176,6 @@ class _VideoPostState extends State<VideoPost>
                   foregroundImage: NetworkImage(
                     "https://avatars.githubusercontent.com/u/77829187?v=4",
                   ),
-                  child: Text("INHWAN"),
                 ),
                 Gaps.v24,
                 const VideoButton(
