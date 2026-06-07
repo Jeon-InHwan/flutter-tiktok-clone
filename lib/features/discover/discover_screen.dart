@@ -48,9 +48,14 @@ class DiscoverScreen extends StatelessWidget {
                 childAspectRatio: 9 / 16,
               ),
               itemBuilder:
-                  (context, index) => Container(
-                    color: Colors.teal,
-                    child: Center(child: Text("$index")),
+                  (context, index) => AspectRatio(
+                    aspectRatio: 9 / 16,
+                    child: FadeInImage.assetNetwork(
+                      placeholder: "assets/images/placeholder.jpg",
+                      image:
+                          "https://images.unsplash.com/photo-1780571009551-6713262b1687?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+                      fit: BoxFit.cover,
+                    ),
                   ),
             ),
             for (var tab in tabs.skip(1))
