@@ -10,8 +10,27 @@ class ActivityScreen extends StatefulWidget {
   State<ActivityScreen> createState() => _ActivityScreenState();
 }
 
-class _ActivityScreenState extends State<ActivityScreen> {
+class _ActivityScreenState extends State<ActivityScreen>
+    with SingleTickerProviderStateMixin {
   final List<String> _notifications = List.generate(20, (index) => "${index}h");
+
+  late final AnimationController _animationController = AnimationController(
+    vsync: this,
+    duration: const Duration(milliseconds: 200),
+  );
+
+  late final Animation<double> _animation = Tween(
+    begin: 0.0,
+    end: 0.5,
+  ).animate(_animationController);
+
+  void _onTitleTap() {
+    if (_animationController.isCompleted) {
+      _animationController.reverse();
+    } else {
+      _animationController.forward();
+    }
+  }
 
   void _onDismissed(String notification) {
     _notifications.remove(notification);
@@ -21,7 +40,30 @@ class _ActivityScreenState extends State<ActivityScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("All activity")),
+      appBar: AppBar(
+        title: const SizedBox.shrink(),
+        flexibleSpace: SafeArea(
+          child: GestureDetector(
+            onTap: _onTitleTap,
+            child: Center(
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Text(
+                    "All activity",
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(width: 4),
+                  RotationTransition(
+                    turns: _animation,
+                    child: const FaIcon(FontAwesomeIcons.chevronDown, size: 14),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
       body: ListView(
         children: [
           Gaps.v14,
