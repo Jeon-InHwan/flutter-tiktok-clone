@@ -45,46 +45,43 @@ class _ActivityScreenState extends State<ActivityScreen>
     end: Colors.black38,
   ).animate(_animationController);
 
-  void _toggleAnimation() async {
+  void _onDismissed(String notification) {
+    _notifications.remove(notification);
+    setState(() {});
+  }
+
+  void _toggleAnimations() async {
     if (_animationController.isCompleted) {
       await _animationController.reverse();
     } else {
       _animationController.forward();
     }
+
     setState(() {
       _showBarrier = !_showBarrier;
     });
-  }
-
-  void _onDismissed(String notification) {
-    _notifications.remove(notification);
-    setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const SizedBox.shrink(),
-        flexibleSpace: SafeArea(
-          child: GestureDetector(
-            onTap: _toggleAnimation,
-            child: Center(
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const Text(
-                    "All activity",
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(width: 4),
-                  RotationTransition(
-                    turns: _arrowAnimation,
-                    child: const FaIcon(FontAwesomeIcons.chevronDown, size: 14),
-                  ),
-                ],
+        title: GestureDetector(
+          onTap: _toggleAnimations,
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Text("All activity"),
+              Gaps.h2,
+              RotationTransition(
+                turns: _arrowAnimation,
+                child: const FaIcon(
+                  FontAwesomeIcons.chevronDown,
+                  size: Sizes.size14,
+                ),
               ),
-            ),
+            ],
           ),
         ),
       ),
@@ -96,7 +93,7 @@ class _ActivityScreenState extends State<ActivityScreen>
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: Sizes.size12),
                 child: Text(
-                  "New",
+                  'New',
                   style: TextStyle(
                     fontSize: Sizes.size14,
                     color: Colors.grey.shade500,
@@ -109,26 +106,26 @@ class _ActivityScreenState extends State<ActivityScreen>
                   key: Key(notification),
                   onDismissed: (direction) => _onDismissed(notification),
                   background: Container(
-                    color: Colors.green,
                     alignment: Alignment.centerLeft,
+                    color: Colors.green,
                     child: const Padding(
                       padding: EdgeInsets.only(left: Sizes.size10),
                       child: FaIcon(
                         FontAwesomeIcons.checkDouble,
                         color: Colors.white,
-                        size: Sizes.size32,
+                        size: Sizes.size24,
                       ),
                     ),
                   ),
                   secondaryBackground: Container(
-                    color: Colors.red,
                     alignment: Alignment.centerRight,
+                    color: Colors.red,
                     child: const Padding(
                       padding: EdgeInsets.only(right: Sizes.size10),
                       child: FaIcon(
                         FontAwesomeIcons.trashCan,
                         color: Colors.white,
-                        size: Sizes.size32,
+                        size: Sizes.size24,
                       ),
                     ),
                   ),
@@ -153,7 +150,7 @@ class _ActivityScreenState extends State<ActivityScreen>
                     ),
                     title: RichText(
                       text: TextSpan(
-                        text: "Account updates: ",
+                        text: "Account updates:",
                         style: const TextStyle(
                           fontWeight: FontWeight.w600,
                           color: Colors.black,
@@ -161,7 +158,7 @@ class _ActivityScreenState extends State<ActivityScreen>
                         ),
                         children: [
                           const TextSpan(
-                            text: "Upload longer videos",
+                            text: " Upload longer videos",
                             style: TextStyle(fontWeight: FontWeight.normal),
                           ),
                           TextSpan(
@@ -186,7 +183,7 @@ class _ActivityScreenState extends State<ActivityScreen>
             AnimatedModalBarrier(
               color: _barrierAnimation,
               dismissible: true,
-              onDismiss: _toggleAnimation,
+              onDismiss: _toggleAnimations,
             ),
           SlideTransition(
             position: _panelAnimation,
@@ -210,7 +207,7 @@ class _ActivityScreenState extends State<ActivityScreen>
                             color: Colors.black,
                             size: Sizes.size16,
                           ),
-                          Gaps.h12,
+                          Gaps.h20,
                           Text(
                             tab["title"],
                             style: const TextStyle(fontWeight: FontWeight.bold),
