@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
+import 'package:tiktok_clone/features/inbox/chat_detail_screen.dart';
 
 class ChatScreeen extends StatefulWidget {
   const ChatScreeen({super.key});
@@ -14,11 +15,63 @@ class _ChatScreeenState extends State<ChatScreeen> {
 
   final List<int> _items = [];
 
+  final Duration _duration = const Duration(milliseconds: 300);
+
   void _addItem() {
     if (_key.currentState != null) {
-      _key.currentState!.insertItem(_items.length);
+      _key.currentState!.insertItem(_items.length, duration: _duration);
       _items.add(_items.length);
     }
+  }
+
+  void _deleteItem(int index) {
+    if (_key.currentState != null) {
+      _key.currentState!.removeItem(
+        index,
+        (context, animation) =>
+            SizeTransition(sizeFactor: animation, child: _makeTile(index)),
+        duration: _duration,
+      );
+      _items.removeAt(index);
+    }
+  }
+
+  void _onChatTap() {
+    Navigator.of(
+      context,
+    ).push(MaterialPageRoute(builder: (context) => const ChatDetailScreen()));
+  }
+
+  Widget _makeTile(int index) {
+    return ListTile(
+      onLongPress: () => _deleteItem(index),
+      onTap: _onChatTap,
+      leading: const CircleAvatar(
+        radius: 25,
+        foregroundImage: NetworkImage(
+          "https://avatars.githubusercontent.com/u/77829187?v=4",
+        ),
+        child: Text("AAA"),
+      ),
+      title: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: [
+          Text(
+            "JEON ($index)",
+            style: const TextStyle(fontWeight: FontWeight.w600),
+          ),
+          Text(
+            "9:57 AM",
+            style: TextStyle(
+              color: Colors.grey.shade500,
+              fontSize: Sizes.size12,
+            ),
+          ),
+        ],
+      ),
+      subtitle: const Text("We talked about that yesterday"),
+    );
   }
 
   @override
@@ -43,33 +96,7 @@ class _ChatScreeenState extends State<ChatScreeen> {
             opacity: animation,
             child: SizeTransition(
               sizeFactor: animation,
-              child: ListTile(
-                leading: const CircleAvatar(
-                  radius: 25,
-                  foregroundImage: NetworkImage(
-                    "https://avatars.githubusercontent.com/u/77829187?v=4",
-                  ),
-                  child: Text("AAA"),
-                ),
-                title: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    Text(
-                      "JEON ($index)",
-                      style: const TextStyle(fontWeight: FontWeight.w600),
-                    ),
-                    Text(
-                      "9:57 AM",
-                      style: TextStyle(
-                        color: Colors.grey.shade500,
-                        fontSize: Sizes.size12,
-                      ),
-                    ),
-                  ],
-                ),
-                subtitle: const Text("We talked about that yesterday"),
-              ),
+              child: _makeTile(index),
             ),
           );
         },
