@@ -1,7 +1,21 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class SettingsScreen extends StatelessWidget {
+class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
+
+  @override
+  State<SettingsScreen> createState() => _SettingsScreenState();
+}
+
+class _SettingsScreenState extends State<SettingsScreen> {
+  bool _notifications = false;
+  void _onNotificationChanged(bool? newValue) {
+    if (newValue == null) return;
+    setState(() {
+      _notifications = newValue;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -9,6 +23,34 @@ class SettingsScreen extends StatelessWidget {
       appBar: AppBar(title: const Text('Settings')),
       body: ListView(
         children: [
+          Switch(value: _notifications, onChanged: _onNotificationChanged),
+          CupertinoSwitch(
+            value: _notifications,
+            onChanged: _onNotificationChanged,
+          ),
+          Switch.adaptive(
+            value: _notifications,
+            onChanged: _onNotificationChanged,
+          ),
+          SwitchListTile(
+            value: _notifications,
+            onChanged: _onNotificationChanged,
+            title: const Text("Enable noticifactions"),
+            subtitle: const Text("Subtitle"),
+          ),
+          SwitchListTile.adaptive(
+            value: _notifications,
+            onChanged: _onNotificationChanged,
+            title: const Text("Enable noticifactions"),
+          ),
+          Checkbox(value: _notifications, onChanged: _onNotificationChanged),
+          CheckboxListTile(
+            checkColor: Colors.white,
+            activeColor: Colors.black,
+            value: _notifications,
+            onChanged: _onNotificationChanged,
+            title: const Text("Enable noticifactions"),
+          ),
           ListTile(
             onTap: () async {
               final date = await showDatePicker(
@@ -51,6 +93,7 @@ class SettingsScreen extends StatelessWidget {
               style: TextStyle(fontWeight: FontWeight.w600),
             ),
           ),
+
           const AboutListTile(),
         ],
       ),
