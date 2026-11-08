@@ -92,6 +92,56 @@ class _SettingsScreenState extends State<SettingsScreen> {
               'What is your birthday?',
               style: TextStyle(fontWeight: FontWeight.w600),
             ),
+            subtitle: const Text("Subtitle"),
+          ),
+          ListTile(
+            title: const Text("Log out (iOS)"),
+            textColor: Colors.red,
+            onTap: () {
+              showCupertinoDialog(
+                context: context,
+                builder:
+                    (context) => CupertinoAlertDialog(
+                      title: const Text("Are you sure?"),
+                      content: const Text("Please don't go!"),
+                      actions: [
+                        CupertinoDialogAction(
+                          child: const Text("No"),
+                          onPressed: () => Navigator.of(context).pop(),
+                        ),
+                        CupertinoDialogAction(
+                          onPressed: () => Navigator.of(context).pop(),
+                          isDestructiveAction: true,
+                          child: const Text("Yes"),
+                        ),
+                      ],
+                    ),
+              );
+            },
+          ),
+          ListTile(
+            title: const Text("Log out (Android)"),
+            textColor: Colors.red,
+            onTap: () {
+              showDialog(
+                context: context,
+                builder:
+                    (context) => AlertDialog(
+                      title: const Text("Are you sure?"),
+                      content: const Text("Please don't go!"),
+                      actions: [
+                        TextButton(
+                          child: const Text("No"),
+                          onPressed: () => Navigator.of(context).pop(),
+                        ),
+                        TextButton(
+                          onPressed: () => Navigator.of(context).pop(),
+                          child: const Text("Yes"),
+                        ),
+                      ],
+                    ),
+              );
+            },
           ),
 
           const AboutListTile(),
