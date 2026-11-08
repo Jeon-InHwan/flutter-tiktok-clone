@@ -143,6 +143,57 @@ class _SettingsScreenState extends State<SettingsScreen> {
               );
             },
           ),
+          ListTile(
+            title: const Text("Log out (showCupertinoModalPopup)"),
+            textColor: Colors.red,
+            onTap: () {
+              showCupertinoModalPopup(
+                context: context,
+                builder:
+                    (context) => CupertinoAlertDialog(
+                      title: const Text("Are you sure?"),
+                      content: const Text("Please don't go!"),
+                      actions: [
+                        CupertinoDialogAction(
+                          child: const Text("No"),
+                          onPressed: () => Navigator.of(context).pop(),
+                        ),
+                        CupertinoDialogAction(
+                          onPressed: () => Navigator.of(context).pop(),
+                          isDestructiveAction: true,
+                          child: const Text("Yes"),
+                        ),
+                      ],
+                    ),
+              );
+            },
+          ),
+          ListTile(
+            title: const Text("Log out (iOS / Bottom)"),
+            textColor: Colors.red,
+            onTap: () {
+              showCupertinoModalPopup(
+                context: context,
+                builder:
+                    (context) => CupertinoActionSheet(
+                      title: const Text("Are you sure?"),
+                      message: const Text("Please don't go"),
+                      actions: [
+                        CupertinoActionSheetAction(
+                          isDefaultAction: true,
+                          onPressed: () => Navigator.of(context).pop(),
+                          child: const Text("Not log out"),
+                        ),
+                        CupertinoActionSheetAction(
+                          isDestructiveAction: true,
+                          onPressed: () => Navigator.of(context).pop(),
+                          child: const Text("Yes, Log out"),
+                        ),
+                      ],
+                    ),
+              );
+            },
+          ),
 
           const AboutListTile(),
         ],
